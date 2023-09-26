@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Página com DIVs</title>
+    <style>
+        /* Estilos para melhorar a aparência */
+        .container{
+            width: 100%;
+            max-width: 1294px;
+            margin: auto;
+
+        }
+        .container input{
+            width: 97%;
+            height: 30px;
+            margin: auto;
+            margin-bottom: 5px;
+        }
+        .container button{
+            width: 100%;
+            height: 40px;
+            margin: auto;
+        }
+   
+        .div {
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 3px;
+            margin: 10px;
+        }
+
+        .div h3 {
+            font-size: 20pt;
+        }
+
+        .imagem {
+            display: none;
+        }
+
+        .botao-mais {
+            cursor: pointer;
+            color: rgb(14, 51, 151);
+            text-decoration: underline;
+            font-size: 12pt;
+        }
+
+        @media (min-width: 790px) {
+            .container input{
+            max-width: 750px;            
+            margin-left: 13px;
+        }
+        .container button{
+            max-width: 200px;
+        }
+
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container search-box">
+        <input type="text" id="pesquisa" placeholder="Digite para pesquisar a linha de ônibus (Ex. Vila Regina... São João...)">
+        <button onclick="limparPesquisa()" class="btnBuscaCompleta">Limpar Pesquisa</button>
+        <div id="conteudo"></div>
+    </div>
+
+
+    <script>
+        // Linhas de ônibus
+        var divsData = [
+            {
+                titulo: "Vila Mazzei ↔ Estância 4 Irmãos",
+                descricao: "Linha 01 | Vila Mazzei ↔ Estância 4 Irmãos",
+                imagem: "imagem1.jpg",
+                alt: "pAÇO MUNICIPAL, PREFEITURA, MERCADÃO, MERCADAO, Linha 01, Estância Quatro Irmãos, Predinhos, Unimed, Cemitério Vale da Paz, Vila São João, Vendramini, Rodoviária, Mercado Municipal, Virgílio de Rezende, Vila Rio Branco, Jardim Leonel, Cemitério São João Batista, Paqueta, Sesi, Vila Regina, Vila Mazzei, Mazem, Mazen, Mazei"
+            },
+            {
+                titulo: "Bela Vista ↔ Taboãozinho",
+                descricao: "Linha 02 | Bela Vista ↔ Taboãozinho",
+                imagem: "imagem2.jpg",
+                alt: "CAMBUÍ, MERCADÃO, MERCADAO, Linha 02, Tabãozinho, Taboazinho, Suzano, Parque São Bento, Mercado Municipal, Rodoviária, Jardim Fogaça, Morada do Sol, Vergílo de Rezende, Vila Aparecida, Vila Maciel, 5 de novembro, Avenida CINCO DE NOVEMBRO, 5"
+            },
+            {
+                titulo: "Monte Santo ↔ Chapadinha",
+                descricao: "Linha 03 | Monte Santo ↔ Chapadinha",
+                imagem: "imagem2.jpg",
+                alt: "MERCADÃO, MERCADAO, Linha 03, Chapada Grande, 4L, Quatro L, quatrol, Av. Marginal, Marginal, Saratuayá, Sarutaia, Hospital Regional, Regional, Léo Orsi Bernardes, Leo, Velório, Velorio, Rua Dr. Júlio Prestes, Julio Prestes, Rua Quintino Bocaiuva, Ginásio Ayrtom Senna, Aveniada Nisshimbo do Brasil, Nishinbo, Policlínica, Vila Apolo, Vila Polo, Vila Barth, Barte, Bart, Avenida, Av, João Barth, FATEC, TIRO DE GUERRA, Vila La Brunetti, bruneti, Clube CRI, Clube Recreativo"
+            },
+            {
+                titulo: "São Camilo ↔ Vale San Fernando",
+                descricao: "Linha 04 | São Camilo ↔ Vale San Fernando",
+                imagem: "imagem2.jpg",
+                alt: "MERCADÃO, MERCADAO, Linha 04, Vida Nova Itapetininga, Nova Itapetininga, FKB, Fundação Karnig Bazarian (Faculdades Integradas de Itapetininga), Vale San Fernando, Belo Horizonte, Casa Grande, São Camilo, Jardim das Flores, Hospital Regional, Vergílio de Rezende, Resende, Virgílio de Resende, Virgiolio, Sabesp,  Vida Nova Pacaembu, Vila Arruda, Shopping, São Fernandes"
+            },
+            {
+                titulo: "Vila Célia ↔ Vila Nastri ",
+                descricao: "Linha 05 | Vila Célia ↔ Vila Nastri ",
+                imagem: "imagem2.jpg",
+                alt: "MERCADÃO, MERCADAO, Selia, Celia, Vila Celia, NASTRI 2, Bancários, Bancarios, Avenida cinco de novembro, 5 de novembro, av 5 de novembro, Hospital Regional, Léo Orsi Bernardes, Regional, Vila Paulo Ayres, APAE, Paulo Ayres, Paulo Aires, Paulo Ares, Lago dos Ipes, Lago dos Ipês, Pinheiros III, Pinheiros 3, Pinheiros 2, Pinheiros II, Portal dos Pinheiros, Jardim Pinheiros, Vila Prado, Vila Arruda, Mercado Municipal, Mercado"
+            },
+            {
+                titulo: "Vila Piedade ↔ Jardim Paulista ",
+                descricao: "Linha 06 | Vila Piedade ↔ Jardim Paulista ",
+                imagem: "imagem2.jpg",
+                alt: "MERCADÃO, MERCADAO, JD PAULISTA, VL PIEDADE, PIEDADE, PAULISTA, JARDIM BRASIL, JD BRASIL, BRASIL, VILA GODÓI, GODÓI, VILA SANTANA, SANTANA, MARGINAL DOS CAVALOS, VILA ROCHA, ROCHA, RUA DR. JÓLIO PRESTES, RUA QUINTINO BOCAIUVA, QUINTINO, HOSPITAL REGIONAL, RUA PRUDENTE DE MORARES, RUA BARBOSA FRANCO, BARBOSA FRANCO, TRÊS ESCOLAS, 3 ESCOLAS, PEIXOTO, JARDIM SANTA INES, JD SANTA INES, SANTA INÊS, OLHO D' ÁGUA, MERCADO MUNICIPAL, MERCADO, RODOVIÁRIA"
+            },
+            {
+                titulo: "Rincão ↔ Mercado Municipal ",
+                descricao: "Linha 07 | Rincão ↔ Mercado Municipal  ",
+                imagem: "imagem2.jpg",
+                alt: "MERCADÃO, MERCADAO, MERCADO MUNICIPAL, MERCADO, RINCÃO, RODOVIÁRIA, RINCAO, RINCAM, RINCAN, RIMCAM"
+            },
+            {
+                titulo: "Capão Alto ↔ Rodoviária",
+                descricao: "Linha 08 | Capão Alto ↔ Rodoviária (Colégio Agrícola) ",
+                imagem: "imagem2.jpg",
+                alt: "MERCADÃO, MERCADAO, CAPAO, ALTO, CAPÃO ALTO, ETEC, COLÉGIO AGRÍCOLA,COLEGIO AGRICOLA, PRESÍDIO, FUNDAÇÃO CASA, Escola Técnica Estadual professor (ETEC) Edson Galvão, EDSON GALVÃO, EDSON GALVAO, Rod. Gladys Bernardes Minhoto, RODOVIÁRIA, RODOVIARIA, MERCADO, MERCADO MUNICIPAL, OLHO D' ÁGUA, OLHO DA AGUA, OLHO DE AGUA, OLHO DA ÁGUA"
+            },
+            {
+                titulo: "Tupy ↔ Rodoviária",
+                descricao: "Linha 09 | Tupy ↔ Rodoviária ",
+                imagem: "imagem2.jpg",
+                alt: "MERCADÃO, MERCADAO,  VILA PALMEIRAS, PALMEIRA, VL PALMEIRA, TUPI, TUPY, RODOVIARIA, RODOVIÁRIA, VIADUTO BANCÁRIOS, BANCÁRIOS, BELA VISTA PASSARELA, BELA VISTA, MERCADO MUNICIPAL, MERCADO, AVENIDA CINCO DE NOVEMBRO, 5 DE NOVEMBRO, VILA SOTTEMO, BAIRRO DO PINHAL, PINHAL, JBS"
+            },
+            {
+                titulo: "Rechan ↔ Rodoviária",
+                descricao: "Linha 10 | Rechan ↔ Rodoviária",
+                imagem: "imagem2.jpg",
+                alt: "MERCADÃO, MERCADAO, RECHÃ, RECHAN, RESHAN, RECHA, RECHAM, RODOVIARIA, AVENIDA CINCO DE NOVEMBRO, AV 5 DE NOVEMBRO, BANCÁRIOS, BELA VISTA, MERCADO MUNICIPAL, MERCADO, SOTTEMO, BAIRRO DO PINHAL, PINHAL JBS, RAPOSO TAVARES"
+            },
+            {
+                titulo: "Gramadinho ↔ Rodoviária ",
+                descricao: "Linha 11 | Gramadinho ↔ Rodoviária ",
+                imagem: "imagem2.jpg",
+                alt: "GRAMADINHO, RODOVIARIA, RODOVIÁRIA, GRAMADINHU, VIADUTO BANCÁRIOS, BELA VISTA, CONCEIÇÃO, MERCADO MUNICIPAL, MERCADO, MERCADÃO, AVENIDA CINCO DE NOVEMBRO, 5 DE NOVEMBRO, 7 CURVAS, sete curvas"
+            },
+            {
+                titulo: "Retiro ↔ Mercado",
+                descricao: "Linha 12 | Retiro ↔ Mercado",
+                imagem: "imagem2.jpg",
+                alt: "RITIRO, RETERO, RITERO, MERCADO, MERCADÃO, MERCADAO, PESCARIA, PESCÁRIA, SÃO ROQUE, VARGINHA, DISTRITO CONCEIÇÃO, MERCADO MUNICIPAL, MERCADO, TURVO DOS RODRIGUES"
+            },
+            {
+                titulo: "Morro Alto ↔ Mercado Municipal ",
+                descricao: "Linha 13 | Morro Alto ↔ Mercado Municipal ",
+                imagem: "imagem2.jpg",
+                alt: "MORRO DO ALTO, MORRO ALTO, VILA MACIA, MACIA, JARDIM MESQUITA, JARDIM MARABÁ, PREFEITURA, PAÇO MUNICIPAL, VILA RECREIO, universidade são caetano do sul itapetininga, uscs, universidade são caetano do sul itapetininga, chapada grande, monte santo, rodoviária, rodoviaria, mercadão, mercadao, marabá, paulista, jardim nova era, nova era, tabãozinho, tabaoszinho, goldem ville, ouroville, ouro ville, ouro vile, golde vile, goldem vile, golden ville, golden vile "
+            },
+            {
+                titulo: "Rio Acima ↔ Mercado Municipal ",
+                descricao: "Linha 14 | Rio Acima ↔ Mercado Municipal",
+                imagem: "imagem2.jpg",
+                alt: "RIO ASIMA, RIU ACIMA, RIU ASIMA, ASSIMA, MERCADO, MERCADÃO, MERCADAM, MERCADAO, HOSPITAL REGIONAL, REGIONAL, LÉO ORSI BERNARDES, DOUTOR LÉO, VILA APRECIDA, AVENIDA PEDRO VOZ, APARECIDA, IFSP, INSTITUTO FEDERAL, RECINTO DE EXPOSIÇÃO, ACÁCIO DE MORAES TERRA, MORAIS TERRA, RUA DR. FERNANDO PRESTES, RODOVIA RAPOSO TAVARES, CHAPADA GRANDE, MONTE SANTO, SAPEZAL"
+            },
+            {
+                titulo: "Bernardes ↔ Mercado Municipal ",
+                descricao: "Linha 15 | Bernardes ↔ Mercado Municipal (Pinhal, Rocinha)",
+                imagem: "imagem2.jpg",
+                alt: " MERCADÃO, MERCADAM, MERCADO, VISTA ALEGRE, USINA, ETEC, COLEGIO AGRICOLA, EDSON GALVAO, EDSON GALVÃO, BAIRRO SAPEZAL SAPESAL, EXPOAGRO, ESCOLA AGRÍCOLA, USINA VISTA ALEGRE, BAIRRO BERNARDES, ROCINHA, SERIEMA"
+            },
+            {
+                titulo: "*Monte Santo ↔ Chapadinha ",
+                descricao: "Linha Extra Diurna 03B | Monte Santo ↔ Chapadinha",
+                imagem: "imagem2.jpg",
+                alt: "MONTE SANTO, CHAPADA GRANDE, CHAPADINHA, Etec Darcy Pereira de Moraes, CAPS CHAPADINHA, VILA 4L IFSP, INSTITUTO FEDERAL, NOVA ITAPETININGA, RODOVIÁRIA, RODOVIARIA, MERCADO, NISSHIMBO DO BRASIL, NISSHIMBO, NICHIMBO, VILA CAMARÃO, CAMARAM"
+            },
+            {
+                titulo: "*São Camilo ↔ Mercado Municipal ",
+                descricao: "Linha Extra Diurna 04B | São Camilo (Via Rincão) ↔ Mercado Municipal",
+                imagem: "imagem2.jpg",
+                alt: "cÉLIA, SELIA, RINCAM, RINCÃO, RINCAO, SAO CAMILO, RODOVIÁRIA, RODOVIARIA, ARRUDA, VILA ARRUDA, VILA CARVALHO, CARVALHO, JARDIM CASA GRANDE, CASA GRANDE, BELO, BELO HORIZONTE, VILA BELO HORIZONTE, ARRUDA"
+            },
+            {
+                titulo: "*Estância 4 Irmãos ↔ Mercado Municipal",
+                descricao: "Linha 01 - Extra Noturna | Estância 4 Irmãos ↔ Mercado Municipal (Via Rodoviária) ",
+                imagem: "imagem2.jpg",
+                alt: "RODOVIÁRIA , JD. PAULISTA , JD. MARABÁ , PREFEITURA , CDHU , VL. POPULAR , UNIMED , VL. CÉLIA , VL. PRADO , VL. ARRUDA , VL. SÃO JOÃO"
+            },
+            {
+                titulo: "*Mazzei ↔ Rodoviária ",
+                descricao: "Linha 01 - Extra Noturna | Mazzei ↔ Rodoviária (Via Mercado Municipal) ",
+                imagem: "imagem2.jpg",
+                alt: "MERCADO MUNICIPAL , VL. RIO BRANCO , SESI, VL. REGINA , RES. NASCENTES , VL. MAZZEI"
+            },
+            {
+                titulo: "*Taboãozinho ↔ Mercado Municipal ",
+                descricao: "Linha 02 - Extra Noturna | Taboãozinho ↔ Mercado Municipal (Via Rodoviária)",
+                imagem: "imagem2.jpg",
+                alt: "AV. DR. VIRGÍLIO DE REZENDE , RODOVIÁRIA, VL. APARECIDA , VL. MONTEIRO , JD. FOGAÇA , TABOÃOZINHO"
+            },
+            {
+                titulo: "*Bela Vista ↔ Rodoviária ",
+                descricao: "Linha 02 - Extra Noturna | Bela Vista ↔ Rodoviária (Via Mercado Municipal) ",
+                imagem: "imagem2.jpg",
+                alt: "MERCADO MUNICIPAL , AV. 5 DE NOVEMBRO , CAMBUÍ , BELA VISTA"
+            },
+            {
+                titulo: "*Monte Santo ↔ Mercado Municipal ",
+                descricao: "Linha 03 - Extra Noturna | Monte Santo ↔ Mercado Municipal (Via Rodoviária)",
+                imagem: "imagem2.jpg",
+                alt: "NOVA ITAPETININGA , VALE S. FERNANDO (VIDA NOVA 1),CHAPADA GRANDE , MONTE SANTO"
+            },
+            {
+                titulo: "*Chapadinha ↔ Rodoviária",
+                descricao: "Linha 03 - Extra Noturna | Chapadinha ↔ Rodoviária (Via Rodoviária)  ",
+                imagem: "imagem2.jpg",
+                alt: "ETEC, FATEC"
+            },
+            {
+                titulo: "*São Camilo ↔ Rodoviária ",
+                descricao: "Linha 04- Extra Noturna  | São Camilo ↔ Rodoviária (Via Mercado Municipal) ",
+                imagem: "imagem2.jpg",
+                alt: "MERCADO MUNICIPAL , VL. PIEDADE , VL. B. HORIZONTE, BELO HORIZONTE, VILA PIEDADE, JARDIM CASA GRANDE"
+            },
+            {
+                titulo: "*Bancários ↔ Rodoviária ",
+                descricao: "Linha 05 - Extra Noturna | Bancários ↔ Rodoviária (Via Mercado Municipal) ",
+                imagem: "imagem2.jpg",
+                alt: "MERCADO , AV. 5 DE NOVEMBRO , COLÉGIO OBJETIVO, IIES, IES, CINCO DE NOVEMBRO, NOVEMBRO, AVENDIA CINCO, AVENIDA 5"
+            },
+            {
+                titulo: "*Taboãozinho ↔ Bela Vista",
+                descricao: "Linha 02 - PQ. INDUSTRIAL (FÁBRICAS)  | Taboãozinho ↔ Bela Vista",
+                imagem: "imagem2.jpg",
+                alt: "ATENDE: VILA APARECIDA , AV. DR. VIRGÍLIO DE REZENDE, CORREDOR COFESA , AV. 5 DE NOVEMBRO , CAMBUÍ,  B. VISTA , ROD. RAP. TAVARES , PASSARELA SOTTEMA, SESI , VL. REGINA , VL. RIO BRANCO , R. PADRE ANTONIO, BRUNETTI R. QUINTINO BOCAIUVA , AV. DR. VIRGÍLIO DE REZENDE , R. JOSÉ DE ALMEIDA CARVALHO , PREFEITURA, PAÇO MUNICIPAL, CÂMARA MUNICIPAL, FORUM, FÓRUN, FORUM"
+            },
+            {
+                titulo: "*Tupy ↔ Rodoviária",
+                descricao: "Linha 09 - PQ. INDUSTRIAL (FÁBRICAS)  | Tupy ↔ Rodoviária ",
+                imagem: "imagem2.jpg",
+                alt: "HOSPITAL REGIONAL , CORREDOR COFESA, AV. 5 DE NOVEMBRO, SOTTEMO, VILA SOTTEMO, SOTEMO, 5 DE NOVEMBRO, CINCO DE NOVEMBRO, VILA PALMEIRA, MERCADÃO, MERCADO MUNICIPAL"
+            }
+            // Adicione mais DIVs aqui
+        ];
+
+        // Função para criar e carregar as DIVs a partir da variável
+        function carregarDivs() {
+            var conteudo = document.getElementById("conteudo");
+
+            divsData.forEach(function (data, index) {
+                var div = document.createElement("div");
+                div.classList.add("div");
+                div.setAttribute("alt", data.alt);
+
+                var titulo = document.createElement("h3");
+                titulo.textContent = data.titulo;
+                titulo.setAttribute("alt", data.alt); // Adicione o atributo "alt" ao título
+
+                var descricao = document.createElement("p");
+                descricao.textContent = data.descricao;
+
+                var imagem = document.createElement("img");
+                imagem.classList.add("imagem");
+                imagem.src = data.imagem;
+                imagem.alt = "Imagem " + (index + 1);
+
+                var botaoMais = document.createElement("button");
+                botaoMais.classList.add("botao-mais");
+                botaoMais.textContent = "Exibir Horários";
+                botaoMais.onclick = function () {
+                    expandirDiv(this);
+                };
+
+                div.appendChild(titulo);
+                div.appendChild(descricao);
+                div.appendChild(botaoMais);
+                div.appendChild(imagem);
+
+                conteudo.appendChild(div);
+            });
+        }
+
+        // Função para expandir a DIV
+        function expandirDiv(botao) {
+            var div = botao.parentElement;
+            var imagem = div.querySelector(".imagem");
+
+            if (imagem.style.display === "none" || imagem.style.display === "") {
+                imagem.style.display = "block";
+                botao.textContent = "Esconder Horários";
+            } else {
+                imagem.style.display = "none";
+                botao.textContent = "Exibir Horários";
+            }
+        }
+
+        // Função para pesquisar DIVs
+        function pesquisarDivs() {
+            var termoPesquisa = document.getElementById("pesquisa").value.toLowerCase();
+            var divs = document.querySelectorAll(".div");
+
+            divs.forEach(function (div) {
+                var titulo = div.querySelector("h3").textContent.toLowerCase();
+                var descricao = div.querySelector("p").textContent.toLowerCase();
+                var descricaoCompleta = div.getAttribute("alt").toLowerCase();
+
+                if (titulo.includes(termoPesquisa) || descricao.includes(termoPesquisa) || descricaoCompleta.includes(termoPesquisa)) {
+                    div.style.display = "block";
+                } else {
+                    div.style.display = "none";
+                }
+            });
+        }
+
+        // Função para limpar a pesquisa
+        function limparPesquisa() {
+            var divs = document.querySelectorAll(".div");
+            divs.forEach(function (div) {
+                div.style.display = "block";
+            });
+            document.getElementById("pesquisa").value = "";
+        }
+
+        // Carregar as DIVs na abertura da página
+        window.onload = function () {
+            carregarDivs();
+            document.getElementById("pesquisa").addEventListener("input", pesquisarDivs);
+        };
+    </script>
+</body>
+
+</html>
